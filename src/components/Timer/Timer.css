@@ -43,6 +43,10 @@ h1 {
     .symbol {
         display: none;
     }
+
+    .value {
+        text-align: center;
+    }
 }
 
 @media(min-width: 400px) {
