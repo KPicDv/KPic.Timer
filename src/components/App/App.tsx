@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import moment from 'moment'
 import * as React from 'react'
-import Crypto from 'crypto-js'
-import frLocale from 'date-fns/locale/fr'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import frLocale from 'date-fns/locale/fr'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import Form from '../Form/Form'
 import Timer from '../Timer/Timer'
+import { decrypt } from '../../utils/token'
+import { getCookie, setCookie, timerCookieName } from '../../utils/cookie'
 import './App.css'
-import moment from 'moment'
 
 function App() {
     const token = document.location.pathname.replace(/^\//, '')
@@ -16,15 +17,17 @@ function App() {
     let description: string | null = null
 
     if (token) {
-        try {
-            const decrypted: string = Crypto.enc.Utf8.stringify(Crypto.enc.Base64.parse(token))
-            const values = decrypted.split(/#(.+)/)
+        const decrypted = decrypt(token)
 
-            if (values.length >= 2) {
-                datetime = moment(values[0])
-                description = values[1]
-            }
-        } catch (error) {
+        if (decrypted) {
+            datetime = decrypted.datetime
+            description = decrypted.description
+
+            const tokens: Array<string> = getCookie(timerCookieName) || []
+            if (!tokens.includes(token)) tokens.push(token)
+
+            setCookie(timerCookieName, tokens)
+        } else {
             document.location = '/'
         }
     }
