@@ -18,8 +18,8 @@ import './Form.css'
 import { decrypt } from '../../utils/token'
 
 function Form() {
-    const [datetime, setDatetime] = React.useState<Date | null>(new Date())
-    const [description, setDescription] = React.useState<string>('Test')
+    const [datetime, setDatetime] = React.useState<Date | null>(null)
+    const [description, setDescription] = React.useState<string>('')
     const tokens: Array<string> = getCookie(timerCookieName) || []
     const timers: Array<{datetime: moment.Moment, description: string, token: string}> = tokens.map(token => decrypt(token)).filter(values => !!values) as any
 
@@ -64,29 +64,31 @@ function Form() {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid sx={{ alignSelf: 'start'}} item xs={10} md={5} lg={4} xl={3}>
-                    <Card>
-                        <CardContent>
-                            <Typography
-                                sx={{ fontSize: 14, textTransform: 'uppercase', textAlign: 'center' }}
-                                color="text.secondary"
-                                gutterBottom
-                            >Mes timers</Typography>
-                            <List>
-                                {timers.map(timer =>
-                                    <div>
-                                        <Divider/>
-                                        <ListItem disablePadding>
-                                            <ListItemButton component="a" href={'/' + timer.token}>
-                                                <ListItemText primary={timer?.description} secondary={timer?.datetime.format('DD/MM/YYYY HH:mm')}/>
-                                            </ListItemButton>
-                                        </ListItem>
-                                    </div>
-                                )}
-                            </List>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                {!timers || !timers.length ? '' : 
+                    <Grid sx={{ alignSelf: 'start'}} item xs={10} md={5} lg={4} xl={3}>
+                        <Card>
+                            <CardContent>
+                                <Typography
+                                    sx={{ fontSize: 14, textTransform: 'uppercase', textAlign: 'center' }}
+                                    color="text.secondary"
+                                    gutterBottom
+                                >Mes timers</Typography>
+                                <List>
+                                    {timers.map(timer =>
+                                        <div>
+                                            <Divider/>
+                                            <ListItem disablePadding>
+                                                <ListItemButton component="a" href={'/' + timer.token}>
+                                                    <ListItemText primary={timer?.description} secondary={timer?.datetime.format('DD/MM/YYYY HH:mm')}/>
+                                                </ListItemButton>
+                                            </ListItem>
+                                        </div>
+                                    )}
+                                </List>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                }
             </Grid>
         </div>
     )
