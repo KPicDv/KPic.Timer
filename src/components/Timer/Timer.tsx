@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react'
 import moment from 'moment'
+import IconButton from '@mui/material/IconButton'
+import HomeIcon from '@mui/icons-material/Home'
 import './Timer.css'
 
 type Props = {
@@ -41,6 +43,11 @@ const Timer: React.FC<Props> = ({ datetime, description }) => {
 
     return (
         <div className="timer">
+            <div className="icon">
+                <IconButton aria-label="home" size="medium" onClick={() => document.location = '/'}>
+                    <HomeIcon fontSize="medium" />
+                </IconButton>
+            </div>
             <h1>{description}</h1>
             <div>
                 <div className="digits">
