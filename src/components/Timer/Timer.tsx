@@ -1,10 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react'
-import moment from 'moment';
-import './App.css';
+import moment from 'moment'
+import './Timer.css'
 
-function App() {
-    const dateString = moment().add(2 * 24 * 60 * 60, 'seconds').format('YYYY-MM-DD HH:mm:ss')
-    const description = 'LE SKI !'
+type Props = {
+    datetime: moment.Moment
+    description: String
+}
+
+const Timer: React.FC<Props> = ({ datetime, description }) => {
+    const dateString = datetime.format('YYYY-MM-DD HH:mm:ss')
     const [days, setDays] = useState(0)
     const [hours, setHours] = useState(0)
     const [minutes, setMinutes] = useState(0)
@@ -30,12 +35,12 @@ function App() {
                 } else {
                     clearInterval(interval)
                 }
-            }, 1);
+            }, 1)
         }
-    }, []);
+    }, [])
 
     return (
-        <div className="app">
+        <div className="timer">
             <h1>{description}</h1>
             <div>
                 <div className="digits">
@@ -59,7 +64,7 @@ function App() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default App;
+export default Timer
