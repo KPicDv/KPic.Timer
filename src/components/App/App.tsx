@@ -12,7 +12,7 @@ import { getCookie, setCookie, timerCookieName } from '../../utils/cookie'
 import './App.css'
 
 function App() {
-    const match = document.location.pathname.match(/^\/(.*)(\/dodo)?$/)
+    const match = document.location.pathname.match(/^\/([^\/]*)(\/dodo)?$/)
     const token = !!match && match[1]
     const isDodo = !!match && !!match[2]
     let datetime: moment.Moment | null = null
