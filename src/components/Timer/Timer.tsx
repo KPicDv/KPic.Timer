@@ -8,9 +8,10 @@ import './Timer.css'
 type Props = {
     datetime: moment.Moment
     description: String
+    isDodo: boolean
 }
 
-const Timer: React.FC<Props> = ({ datetime, description }) => {
+const Timer: React.FC<Props> = ({ datetime, description, isDodo }) => {
     const dateString = datetime.format('YYYY-MM-DD HH:mm:ss')
     const [days, setDays] = useState(0)
     const [hours, setHours] = useState(0)
@@ -50,25 +51,34 @@ const Timer: React.FC<Props> = ({ datetime, description }) => {
             </div>
             <h1>{description}</h1>
             <div>
-                <div className="digits">
-                    <div className="value">{formate(days)}</div>
-                    <div className="legend">jour{days > 1 ? 's' : ''}</div>
-                </div>
-                <span className="symbol">:</span>
-                <div className="digits">
-                    <div className="value">{formate(hours)}</div>
-                    <div className="legend">heure{hours > 1 ? 's' : ''}</div>
-                </div>
-                <span className="symbol">:</span>
-                <div className="digits">
-                    <div className="value">{formate(minutes)}</div>
-                    <div className="legend">minute{minutes > 1 ? 's' : ''}</div>
-                </div>
-                <span className="symbol">:</span>
-                <div className="digits">
-                    <div className="value">{formate(seconds)}</div>
-                    <div className="legend">seconde{seconds > 1 ? 's' : ''}</div>
-                </div>
+                {isDodo ? (
+                    <div className="digits">
+                        <div className="value">{formate(days)}</div>
+                        <div className="legend">dodo{days > 1 ? 's' : ''}</div>
+                    </div>
+                ) : (
+                    <>
+                        <div className="digits">
+                            <div className="value">{formate(days)}</div>
+                            <div className="legend">jour{days > 1 ? 's' : ''}</div>
+                        </div>
+                        <span className="symbol">:</span>
+                        <div className="digits">
+                            <div className="value">{formate(hours)}</div>
+                            <div className="legend">heure{hours > 1 ? 's' : ''}</div>
+                        </div>
+                        <span className="symbol">:</span>
+                        <div className="digits">
+                            <div className="value">{formate(minutes)}</div>
+                            <div className="legend">minute{minutes > 1 ? 's' : ''}</div>
+                        </div>
+                        <span className="symbol">:</span>
+                        <div className="digits">
+                            <div className="value">{formate(seconds)}</div>
+                            <div className="legend">seconde{seconds > 1 ? 's' : ''}</div>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     )
