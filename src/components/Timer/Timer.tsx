@@ -13,6 +13,7 @@ type Props = {
 
 const Timer: React.FC<Props> = ({ datetime, description, isDodo }) => {
     const dateString = datetime.format('YYYY-MM-DD HH:mm:ss')
+    const [sleeps, setSleeps] = useState(0)
     const [days, setDays] = useState(0)
     const [hours, setHours] = useState(0)
     const [minutes, setMinutes] = useState(0)
@@ -31,6 +32,7 @@ const Timer: React.FC<Props> = ({ datetime, description, isDodo }) => {
                 const s = date.subtract(m, 'minutes').diff(now, 'seconds')
                 
                 if (s >= 0) {
+                    setSleeps(d + (h >= datetime.hours() ? 1 : 0))
                     setDays(d)
                     setHours(h)
                     setMinutes(m)
@@ -50,11 +52,11 @@ const Timer: React.FC<Props> = ({ datetime, description, isDodo }) => {
                 </IconButton>
             </div>
             <h1>{description}</h1>
-            <div>
+            <div className="text-center">
                 {isDodo ? (
                     <div className="digits">
-                        <div className="value">{formate(days)}</div>
-                        <div className="legend">dodo{days > 1 ? 's' : ''}</div>
+                        <div className="value">{formate(sleeps)}</div>
+                        <div className="legend">dodo{sleeps > 1 ? 's' : ''} <span className="emoji">💤</span></div>
                     </div>
                 ) : (
                     <>
